@@ -35,7 +35,7 @@ export default function Header({ businessName = "클린에어 예약센터" }) {
       }`}
     >
       <div className="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
-        <a href="#" className="flex items-center gap-2">
+        <a href="/" className="flex items-center gap-2">
           <span className="text-2xl">❄️</span>
           <span className="font-bold text-lg text-[var(--color-primary-dark)]">
             {businessName}
