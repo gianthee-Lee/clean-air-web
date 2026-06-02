@@ -29,15 +29,14 @@ export default function GallerySection({ content }) {
                     <span className="text-sm">사진 준비중</span>
                   </div>
                 )}
-                {/* 오버레이 효과 */}
-                <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col items-center justify-center text-white p-4 text-center">
-                  <span className="font-bold text-lg mb-2">{item.label}</span>
-                  <p className="text-sm text-gray-200">{item.description}</p>
-                </div>
               </div>
-              <div className="text-center md:hidden">
-                <h3 className="font-bold text-lg mb-1">{item.label}</h3>
-                <p className="text-[var(--color-text-light)] text-sm">{item.description}</p>
+              <div className="mt-2 text-center">
+                <span className="inline-block text-xs font-semibold bg-[var(--color-primary-light)] text-[var(--color-primary)] px-2 py-0.5 rounded-full mb-1">
+                  {item.label}
+                </span>
+                <p className="text-sm text-[var(--color-text-light)]">
+                  {item.description}
+                </p>
               </div>
             </div>
           ))}
