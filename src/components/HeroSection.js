@@ -47,18 +47,15 @@ export default function HeroSection({ phone = SITE_INFO.phone, kakaoUrl = "", co
             <FiPhoneCall />
             {h.phoneText}
           </a>
-          {/* 카카오톡 링크가 있을 때만 버튼 표시 */}
-          {kakaoUrl && kakaoUrl.length > 0 && (
-            <a
-              href={kakaoUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="btn btn-kakao w-full sm:w-auto"
-            >
-              <RiKakaoTalkFill size={20} />
-              {h.kakaoText}
-            </a>
-          )}
+          <a
+            href={kakaoUrl || "#"}
+            target={kakaoUrl ? "_blank" : undefined}
+            rel="noopener noreferrer"
+            className="btn btn-kakao w-full sm:w-auto"
+          >
+            <RiKakaoTalkFill size={20} />
+            {h.kakaoText}
+          </a>
         </div>
       </div>
 

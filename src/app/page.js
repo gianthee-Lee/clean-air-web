@@ -1,6 +1,3 @@
-"use client";
-
-import { useState, useEffect } from "react";
 import Header from "@/components/Header";
 import HeroSection from "@/components/HeroSection";
 import ServiceSection from "@/components/ServiceSection";
@@ -14,9 +11,12 @@ import FAQSection from "@/components/FAQSection";
 import Footer from "@/components/Footer";
 import MobileBottomBar from "@/components/MobileBottomBar";
 import { SITE_INFO } from "@/data/siteData";
+import { supabase, isSupabaseConfigured } from "@/lib/supabase";
 
-export default function Home() {
-  const [siteSettings, setSiteSettings] = useState({
+export const dynamic = 'force-dynamic';
+
+export default async function Home() {
+  let siteSettings = {
     phone: SITE_INFO.phone,
     kakao_url: SITE_INFO.kakaoUrl,
     business_name: SITE_INFO.name,
@@ -24,38 +24,30 @@ export default function Home() {
     address: SITE_INFO.address,
     operating_hours: SITE_INFO.operatingHours,
     business_info: SITE_INFO.businessInfo,
-  });
+  };
 
-  // DB에서 관리한 콘텐츠 데이터
-  const [content, setContent] = useState({});
+  let content = {};
 
-  useEffect(() => {
-    const fetchSettings = async () => {
-      try {
-        const res = await fetch("/api/settings");
-        const data = await res.json();
-        if (data.settings) {
-          setSiteSettings(data.settings);
-
-          // content_ 로 시작하는 키들을 파싱
-          const contentData = {};
-          Object.keys(data.settings).forEach((key) => {
-            if (key.startsWith("content_")) {
-              try {
-                contentData[key] = JSON.parse(data.settings[key]);
-              } catch (e) {
-                // JSON 파싱 실패 시 무시
-              }
+  if (isSupabaseConfigured) {
+    try {
+      const { data, error } = await supabase.from("site_settings").select("*");
+      if (!error && data) {
+        data.forEach((row) => {
+          if (row.key.startsWith("content_")) {
+            try {
+              content[row.key] = JSON.parse(row.value);
+            } catch (e) {
+              // ignore
             }
-          });
-          setContent(contentData);
-        }
-      } catch (err) {
-        console.log("설정 조회 실패, 기본값 사용");
+          } else {
+            siteSettings[row.key] = row.value;
+          }
+        });
       }
-    };
-    fetchSettings();
-  }, []);
+    } catch (error) {
+      console.error("DB Fetch Error:", error);
+    }
+  }
 
   return (
     <>
