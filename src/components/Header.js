@@ -36,7 +36,7 @@ export default function Header({ businessName = "클린에어 예약센터", ann
       )}
       <header
         className={`fixed left-0 right-0 z-50 transition-all duration-300 ${
-          announcementActive ? "top-0 md:top-9 mt-9 md:mt-0" : "top-0"
+          announcementActive && !scrolled ? "top-0 md:top-9 mt-9 md:mt-0" : "top-0 mt-0"
         } ${
           scrolled
             ? "bg-white/95 backdrop-blur-sm shadow-sm"
