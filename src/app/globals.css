@@ -1,0 +1,203 @@
+/* ============================================================
+   Pretendard 웹폰트 (한국어 최적화)
+   ============================================================ */
+@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css");
+
+@import "tailwindcss";
+
+:root {
+  --color-primary: #0EA5E9;       /* 메인 파란색 (sky-500) */
+  --color-primary-dark: #0284C7;  /* 진한 파란색 (sky-600) */
+  --color-primary-light: #E0F2FE; /* 밝은 파란색 배경 (sky-100) */
+  --color-accent: #06B6D4;        /* 민트/시안 (cyan-500) */
+  --color-text: #1E293B;          /* 본문 텍스트 (slate-800) */
+  --color-text-light: #64748B;    /* 보조 텍스트 (slate-500) */
+  --color-bg: #FFFFFF;            /* 기본 배경 */
+  --color-bg-alt: #F8FAFC;        /* 섹션 교차 배경 (slate-50) */
+  --color-border: #E2E8F0;        /* 테두리 (slate-200) */
+  --color-success: #22C55E;       /* 성공/전화 버튼 */
+  --color-kakao: #FEE500;         /* 카카오 노란색 */
+}
+
+@theme inline {
+  --color-primary: var(--color-primary);
+  --color-primary-dark: var(--color-primary-dark);
+  --color-primary-light: var(--color-primary-light);
+  --color-accent: var(--color-accent);
+  --color-text: var(--color-text);
+  --color-text-light: var(--color-text-light);
+  --color-bg: var(--color-bg);
+  --color-bg-alt: var(--color-bg-alt);
+  --color-border: var(--color-border);
+  --color-success: var(--color-success);
+  --color-kakao: var(--color-kakao);
+}
+
+/* ============================================================
+   기본 스타일
+   ============================================================ */
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  /* 모바일 하단 고정 바 높이만큼 여유 */
+  scroll-padding-top: 80px;
+}
+
+body {
+  font-family: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont,
+    system-ui, Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo",
+    "Noto Sans KR", "Malgun Gothic", "Apple Color Emoji", "Segoe UI Emoji",
+    "Segoe UI Symbol", sans-serif;
+  color: var(--color-text);
+  background: var(--color-bg);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ============================================================
+   커스텀 유틸리티
+   ============================================================ */
+
+/* 섹션 공통 패딩 */
+.section-padding {
+  padding: 4rem 1rem;
+}
+
+@media (min-width: 768px) {
+  .section-padding {
+    padding: 5rem 2rem;
+  }
+}
+
+/* 섹션 제목 공통 */
+.section-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 0.75rem;
+  color: var(--color-text);
+}
+
+@media (min-width: 768px) {
+  .section-title {
+    font-size: 1.875rem;
+  }
+}
+
+.section-subtitle {
+  font-size: 0.9375rem;
+  text-align: center;
+  color: var(--color-text-light);
+  margin-bottom: 2.5rem;
+  max-width: 500px;
+  margin-left: auto;
+  margin-right: auto;
+  line-height: 1.6;
+}
+
+/* 카드 공통 */
+.card {
+  background: white;
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  padding: 1.5rem;
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.card:hover {
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  transform: translateY(-2px);
+}
+
+/* 버튼 공통 */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.875rem 1.75rem;
+  border-radius: 10px;
+  font-weight: 600;
+  font-size: 1rem;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  border: none;
+  text-decoration: none;
+}
+
+.btn-primary {
+  background: var(--color-primary);
+  color: white;
+}
+
+.btn-primary:hover {
+  background: var(--color-primary-dark);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(14, 165, 233, 0.3);
+}
+
+.btn-phone {
+  background: var(--color-success);
+  color: white;
+}
+
+.btn-phone:hover {
+  background: #16A34A;
+}
+
+.btn-kakao {
+  background: var(--color-kakao);
+  color: #3C1E1E;
+}
+
+.btn-kakao:hover {
+  background: #FAD700;
+}
+
+/* 모바일 하단 바 여백 */
+@media (max-width: 767px) {
+  body {
+    padding-bottom: 72px;
+  }
+}
+
+/* 폼 입력 필드 */
+.form-input {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  font-size: 1rem;
+  font-family: inherit;
+  color: var(--color-text);
+  background: white;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  outline: none;
+}
+
+.form-input:focus {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.15);
+}
+
+.form-label {
+  display: block;
+  font-size: 0.875rem;
+  font-weight: 600;
+  margin-bottom: 0.375rem;
+  color: var(--color-text);
+}
+
+/* FAQ 아코디언 애니메이션 */
+.faq-answer {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease, padding 0.3s ease;
+}
+
+.faq-answer.open {
+  max-height: 300px;
+}
