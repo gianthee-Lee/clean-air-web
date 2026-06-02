@@ -13,7 +13,7 @@ const STEP_ICONS = [
 export default function ProcessSection({ content }) {
   const sectionTitle = content?.sectionTitle || '작업 과정';
   const sectionSubtitle = content?.sectionSubtitle || '체계적인 5단계 청소 프로세스로 진행합니다.';
-  const steps = content?.steps ? PROCESS_STEPS.map((p, i) => ({...p, ...(content.steps[i] || {})})) : PROCESS_STEPS;
+  const steps = content?.steps || PROCESS_STEPS;
   return (
     <section id="process" className="section-padding bg-[var(--color-bg-alt)]">
       <div className="max-w-4xl mx-auto">

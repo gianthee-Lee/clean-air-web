@@ -14,7 +14,7 @@ export default function ServiceSection({ content }) {
   const sectionTitle = content?.sectionTitle || "에어컨 청소, 왜 필요할까요?";
   const sectionDesc = content?.sectionDescription || "오래된 에어컨 내부에는 눈에 보이지 않는 곰팡이와 세균이 번식합니다. 정기적인 청소로 건강한 실내 환경을 만드세요.";
   // DB 항목이 있으면 siteData의 아이콘과 합쳐서 사용
-  const items = content?.items ? SERVICES.map((s, i) => ({ ...s, ...(content.items[i] || {}) })) : SERVICES;
+  const items = content?.items || SERVICES;
 
   return (
     <section id="services" className="section-padding bg-white">

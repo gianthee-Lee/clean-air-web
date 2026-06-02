@@ -4,7 +4,7 @@ import { PRICING, PRICING_NOTES } from "@/data/siteData";
 export default function PricingSection({ content }) {
   const sectionTitle = content?.sectionTitle || '서비스 가격';
   const sectionSubtitle = content?.sectionSubtitle || '투명한 가격으로 안심하고 이용하세요.';
-  const items = content?.items ? PRICING.map((p, i) => ({...p, ...(content.items[i] || {})})) : PRICING;
+  const items = content?.items || PRICING;
   const notes = content?.notes || PRICING_NOTES;
   const ctaText = content?.ctaText || '지금 예약 신청하기';
   return (
@@ -23,10 +23,10 @@ export default function PricingSection({ content }) {
               className="flex items-center justify-between p-4 bg-white border border-[var(--color-border)] rounded-xl hover:border-[var(--color-primary)] transition-colors"
             >
               <div>
-                <h3 className="font-semibold text-base">{item.name}</h3>
-                {item.note && (
+                <h3 className="font-semibold text-base">{item.type || item.name}</h3>
+                {(item.description || item.note) && (
                   <p className="text-xs text-[var(--color-text-light)] mt-0.5">
-                    {item.note}
+                    {item.description || item.note}
                   </p>
                 )}
               </div>

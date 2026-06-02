@@ -9,7 +9,7 @@ export default function FAQSection({ content }) {
 
   const sectionTitle = content?.sectionTitle || '자주 묻는 질문';
   const sectionSubtitle = content?.sectionSubtitle || '궁금한 점이 있으시면 먼저 확인해보세요.';
-  const items = content?.items ? FAQ_DATA.map((p, i) => ({...p, ...(content.items[i] || {})})) : FAQ_DATA;
+  const items = content?.items || FAQ_DATA;
 
   const toggleFAQ = (index) => {
     setOpenIndex(openIndex === index ? null : index);

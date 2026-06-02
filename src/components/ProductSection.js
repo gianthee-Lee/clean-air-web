@@ -13,7 +13,7 @@ const ICON_MAP = {
 export default function ProductSection({ content }) {
   const sectionTitle = content?.sectionTitle || '청소 가능 제품';
   const sectionSubtitle = content?.sectionSubtitle || '다양한 종류의 에어컨 청소가 가능합니다.';
-  const items = content?.items ? PRODUCTS.map((p, i) => ({...p, ...(content.items[i] || {})})) : PRODUCTS;
+  const items = content?.items || PRODUCTS;
   return (
     <section id="products" className="section-padding bg-[var(--color-bg-alt)]">
       <div className="max-w-5xl mx-auto">
@@ -36,7 +36,7 @@ export default function ProductSection({ content }) {
                 </p>
                 <div className="flex items-center justify-center gap-1 text-sm text-[var(--color-primary)] font-medium">
                   <HiOutlineClock />
-                  <span>{product.duration}</span>
+                  <span>{product.time || product.duration}</span>
                 </div>
               </div>
             );

@@ -1,49 +1,59 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { 
+  HERO_DATA, 
+  SERVICES, 
+  PRODUCTS, 
+  PRICING, 
+  PRICING_NOTES, 
+  PROCESS_STEPS, 
+  REVIEWS, 
+  FAQ_DATA 
+} from "@/data/siteData";
 
 // ─── 기본값 ───────────────────────────────────────────────
 const DEFAULT_HERO = {
-  title: "포항 에어컨 청소 예약",
-  subtitle: "벽걸이·스탠드·시스템 에어컨 청소를 빠르게 예약하세요.",
-  description: "곰팡이, 냄새, 먼지 걱정 없이 깨끗한 실내공기를 준비하세요.",
-  trustBadge: "포항 지역 1,000건+ 청소 완료",
-  ctaText: "예약 신청하기",
-  phoneText: "전화 문의",
-  kakaoText: "카카오톡 문의",
+  title: HERO_DATA.title,
+  subtitle: HERO_DATA.subtitle,
+  description: HERO_DATA.description,
+  trustBadge: HERO_DATA.trustBadge,
+  ctaText: HERO_DATA.ctaText,
+  phoneText: HERO_DATA.phoneText,
+  kakaoText: HERO_DATA.kakaoText,
 };
 
 const DEFAULT_SERVICES = {
   sectionTitle: "에어컨 청소, 왜 필요할까요?",
   sectionDescription: "",
-  items: [],
+  items: SERVICES.map(s => ({ title: s.title, description: s.description })),
 };
 
 const DEFAULT_PRODUCTS = {
   sectionTitle: "청소 가능 제품",
-  items: [],
+  items: PRODUCTS.map(p => ({ name: p.name, description: p.description, time: p.duration })),
 };
 
 const DEFAULT_PRICING = {
   sectionTitle: "투명한 가격 안내",
-  items: [],
-  notes: [],
-  ctaText: "",
+  items: PRICING.map(p => ({ type: p.name, price: p.price, description: p.note })),
+  notes: [...PRICING_NOTES],
+  ctaText: "예약하기",
 };
 
 const DEFAULT_PROCESS = {
   sectionTitle: "청소 진행 과정",
-  steps: [],
+  steps: PROCESS_STEPS.map(p => ({ step: String(p.step), title: p.title, description: p.description })),
 };
 
 const DEFAULT_REVIEWS = {
   sectionTitle: "고객 후기",
-  items: [],
+  items: REVIEWS.map(r => ({ name: r.name, rating: String(r.rating), text: r.content, date: r.date, type: r.type })),
 };
 
 const DEFAULT_FAQ = {
   sectionTitle: "자주 묻는 질문",
-  items: [],
+  items: FAQ_DATA.map(f => ({ question: f.question, answer: f.answer })),
 };
 
 const DEFAULT_RESERVATION = {

@@ -4,7 +4,7 @@ import { REVIEWS } from "@/data/siteData";
 export default function ReviewSection({ content }) {
   const sectionTitle = content?.sectionTitle || '고객 후기';
   const sectionSubtitle = content?.sectionSubtitle || '실제 이용하신 고객님들의 솔직한 후기입니다.';
-  const items = content?.items ? REVIEWS.map((p, i) => ({...p, ...(content.items[i] || {})})) : REVIEWS;
+  const items = content?.items || REVIEWS;
   return (
     <section id="reviews" className="section-padding bg-[var(--color-bg-alt)]">
       <div className="max-w-4xl mx-auto">
@@ -32,7 +32,7 @@ export default function ReviewSection({ content }) {
 
               {/* 후기 내용 */}
               <p className="text-[var(--color-text)] leading-relaxed mb-4 text-[0.9375rem]">
-                &ldquo;{review.content}&rdquo;
+                &ldquo;{review.text || review.content}&rdquo;
               </p>
 
               {/* 작성자 정보 */}
