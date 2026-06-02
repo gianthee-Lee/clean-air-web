@@ -46,8 +46,7 @@ export async function POST(request) {
 
     const { error } = await supabase
       .from("site_settings")
-      .update({ value, updated_at: new Date().toISOString() })
-      .eq("key", key);
+      .upsert({ key, value, updated_at: new Date().toISOString() });
 
     if (error) {
       return NextResponse.json({ error: error.message }, { status: 500 });
