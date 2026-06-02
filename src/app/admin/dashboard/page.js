@@ -7,10 +7,13 @@ import ReservationList from "@/components/admin/ReservationList";
 import CalendarView from "@/components/admin/CalendarView";
 import SettingsPanel from "@/components/admin/SettingsPanel";
 import ContentEditor from "@/components/admin/ContentEditor";
+import ReviewManager from "@/components/admin/ReviewManager";
+import { HiOutlineChatAlt2 } from "react-icons/hi";
 
 const TABS = [
   { id: "reservations", label: "예약 관리", icon: HiOutlineClipboardList },
   { id: "calendar", label: "달력", icon: HiOutlineCalendar },
+  { id: "reviews", label: "후기 관리", icon: HiOutlineChatAlt2 },
   { id: "content", label: "콘텐츠 관리", icon: HiOutlinePencilAlt },
   { id: "settings", label: "설정", icon: HiOutlineCog },
 ];
@@ -95,6 +98,7 @@ export default function AdminDashboard() {
       <div className="max-w-6xl mx-auto px-4 py-6">
         {activeTab === "reservations" && <ReservationList />}
         {activeTab === "calendar" && <CalendarView />}
+        {activeTab === "reviews" && <ReviewManager />}
         {activeTab === "content" && <ContentEditor />}
         {activeTab === "settings" && <SettingsPanel />}
       </div>

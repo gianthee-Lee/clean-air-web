@@ -27,9 +27,11 @@ export default async function Home() {
   };
 
   let content = {};
+  let recentReviews = [];
 
   if (isSupabaseConfigured) {
     try {
+      // 설정 가져오기
       const { data, error } = await supabase.from("site_settings").select("*");
       if (!error && data) {
         data.forEach((row) => {
@@ -43,6 +45,16 @@ export default async function Home() {
             siteSettings[row.key] = row.value;
           }
         });
+      }
+
+      // 최근 후기 3개 가져오기
+      const { data: reviewsData } = await supabase
+        .from("customer_reviews")
+        .select("*")
+        .order("created_at", { ascending: false })
+        .limit(3);
+      if (reviewsData) {
+        recentReviews = reviewsData;
       }
     } catch (error) {
       console.error("DB Fetch Error:", error);
@@ -62,9 +74,22 @@ export default async function Home() {
         <ProductSection content={content.content_products} />
         <PricingSection content={content.content_pricing} />
         <ProcessSection content={content.content_process} />
-        <GallerySection />
-        <ReviewSection content={content.content_reviews} />
-        <ReservationSection content={content.content_reservation} />
+        <GallerySection content={content.content_gallery} />
+        <ReviewSection content={content.content_reviews} recentReviews={recentReviews} />
+        
+        {/* 예약하기 안내 섹션 */}
+        <section className="section-padding bg-white text-center">
+          <div className="max-w-2xl mx-auto">
+            <h2 className="text-2xl sm:text-3xl font-bold mb-4">지금 바로 예약하세요</h2>
+            <p className="text-[var(--color-text-light)] mb-8">
+              원하시는 날짜와 시간을 선택하시면 빠르게 확인 후 연락드리겠습니다.
+            </p>
+            <a href="/reservation" className="btn btn-primary inline-flex items-center gap-2">
+              예약 전용 페이지로 이동 ➔
+            </a>
+          </div>
+        </section>
+
         <FAQSection content={content.content_faq} />
       </main>
       <Footer settings={siteSettings} />

@@ -9,8 +9,11 @@ import {
   PRICING_NOTES, 
   PROCESS_STEPS, 
   REVIEWS, 
-  FAQ_DATA 
+  FAQ_DATA,
+  GALLERY_ITEMS
 } from "@/data/siteData";
+import { supabase, isSupabaseConfigured } from "@/lib/supabase";
+import ImageUpload from "./ImageUpload";
 
 // ─── 기본값 ───────────────────────────────────────────────
 const DEFAULT_HERO = {
@@ -59,6 +62,11 @@ const DEFAULT_FAQ = {
 const DEFAULT_RESERVATION = {
   sectionTitle: "예약 신청",
   sectionDescription: "아래 정보를 입력하시면 빠르게 연락드리겠습니다.",
+};
+
+const DEFAULT_GALLERY = {
+  sectionTitle: "작업 전후 갤러리",
+  items: GALLERY_ITEMS.map(g => ({ label: g.label, description: g.description, imageSrc: g.imageSrc || "" })),
 };
 
 // ─── 유틸 ─────────────────────────────────────────────────
@@ -237,6 +245,7 @@ export default function ContentEditor() {
   const [reviews, setReviews] = useState(DEFAULT_REVIEWS);
   const [faq, setFaq] = useState(DEFAULT_FAQ);
   const [reservation, setReservation] = useState(DEFAULT_RESERVATION);
+  const [gallery, setGallery] = useState(DEFAULT_GALLERY);
 
   // 열림/닫힘
   const [expanded, setExpanded] = useState({});
@@ -262,6 +271,7 @@ export default function ContentEditor() {
         setReviews(safeParse(s.content_reviews, DEFAULT_REVIEWS));
         setFaq(safeParse(s.content_faq, DEFAULT_FAQ));
         setReservation(safeParse(s.content_reservation, DEFAULT_RESERVATION));
+        setGallery(safeParse(s.content_gallery, DEFAULT_GALLERY));
       } catch (err) {
         console.error("콘텐츠 로드 실패:", err);
         setError(err.message);
@@ -806,6 +816,61 @@ export default function ContentEditor() {
             saving={saving.content_reviews}
             saved={saved.content_reviews}
             onClick={() => saveSection("content_reviews", reviews)}
+          />
+        </CollapsibleSection>
+
+        {/* ─── 6.5. 갤러리 ──────────────────────────────── */}
+        <CollapsibleSection
+          title="갤러리 (전후 사진)"
+          badge={gallery.items?.length ? `${gallery.items.length}장` : null}
+          expanded={expanded.gallery}
+          onToggle={() => toggle("gallery")}
+        >
+          <TextField
+            label="섹션 제목"
+            value={gallery.sectionTitle}
+            onChange={(v) => setGallery((p) => ({ ...p, sectionTitle: v }))}
+          />
+          <h4 style={{ fontWeight: 600, fontSize: "14px", margin: "16px 0 8px" }}>사진 목록</h4>
+          {(gallery.items || []).map((item, i) => (
+            <ItemCard key={i} index={i} onDelete={() => removeArrayItem(setGallery, "items", i)}>
+              <ImageUpload 
+                value={item.imageSrc} 
+                onChange={(url) => updateArrayItem(setGallery, "items", i, "imageSrc", url)} 
+              />
+              <TextField
+                label="사진 라벨 (예: 작업 전)"
+                value={item.label}
+                onChange={(v) => updateArrayItem(setGallery, "items", i, "label", v)}
+              />
+              <TextField
+                label="설명"
+                value={item.description}
+                onChange={(v) => updateArrayItem(setGallery, "items", i, "description", v)}
+              />
+            </ItemCard>
+          ))}
+          <button
+            type="button"
+            onClick={() => addArrayItem(setGallery, "items", { label: "", description: "", imageSrc: "" })}
+            style={{
+              background: "none",
+              border: "1px dashed var(--color-border)",
+              borderRadius: "8px",
+              padding: "8px 16px",
+              cursor: "pointer",
+              color: "var(--color-primary)",
+              fontWeight: 600,
+              fontSize: "13px",
+              width: "100%",
+            }}
+          >
+            + 사진 추가
+          </button>
+          <SaveButton
+            saving={saving.content_gallery}
+            saved={saved.content_gallery}
+            onClick={() => saveSection("content_gallery", gallery)}
           />
         </CollapsibleSection>
 
