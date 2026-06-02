@@ -10,31 +10,40 @@ const NAV_ITEMS = [
   { label: "후기", href: "/reviews" },
 ];
 
-export default function Header({ businessName = "클린에어 예약센터" }) {
+export default function Header({ businessName = "클린에어 예약센터", announcementText = "", announcementActive = false }) {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
-      setScrolled(window.scrollY > 20);
+      // 20px이 아니라 공지바 높이를 고려해서 조금 더 아래로 내릴 때 처리
+      setScrolled(window.scrollY > (announcementActive ? 40 : 20));
     };
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  }, [announcementActive]);
 
   const handleNavClick = () => {
     setIsOpen(false);
   };
 
   return (
-    <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        scrolled
-          ? "bg-white/95 backdrop-blur-sm shadow-sm"
-          : "bg-transparent"
-      }`}
-    >
-      <div className="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
+    <>
+      {announcementActive && announcementText && (
+        <div className="w-full bg-[var(--color-primary-dark)] text-white py-2 px-4 text-center text-sm font-medium relative z-[60]">
+          {announcementText}
+        </div>
+      )}
+      <header
+        className={`fixed left-0 right-0 z-50 transition-all duration-300 ${
+          announcementActive ? "top-0 md:top-9 mt-9 md:mt-0" : "top-0"
+        } ${
+          scrolled
+            ? "bg-white/95 backdrop-blur-sm shadow-sm"
+            : "bg-transparent"
+        }`}
+      >
+        <div className="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
         <a href="/" className="flex items-center gap-2">
           <span className="text-2xl">❄️</span>
           <span className="font-bold text-lg text-[var(--color-primary-dark)]">
@@ -82,6 +91,6 @@ export default function Header({ businessName = "클린에어 예약센터" }) {
           </nav>
         </div>
       )}
-    </header>
+    </>
   );
 }

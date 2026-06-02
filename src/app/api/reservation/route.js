@@ -54,6 +54,36 @@ export async function POST(request) {
       console.log("📋 새 예약 접수:", JSON.stringify(body, null, 2));
     }
 
+    // 관리자 즉시 알림 전송 (이메일, 텔레그램, 디스코드 등)
+    // 실제 서비스 적용 시 환경 변수(process.env.ADMIN_WEBHOOK_URL) 등에 URL을 설정하여 사용합니다.
+    try {
+      const webhookUrl = process.env.ADMIN_WEBHOOK_URL;
+      const message = `🚨 [새 예약 접수]
+이름: ${body.name}
+연락처: ${body.phone}
+주소: ${body.address}
+종류: ${body.airconType} (${body.quantity || 1}대)
+희망날짜: ${body.preferredDate || '미정'}
+요청사항: ${body.memo || '없음'}`;
+
+      if (webhookUrl) {
+        // 실제 웹훅 전송
+        await fetch(webhookUrl, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ content: message })
+        });
+      } else {
+        // 테스트 환경: 콘솔에 알림 출력
+        console.log("\n==================================");
+        console.log("🔔 [관리자 알림 시뮬레이션]");
+        console.log(message);
+        console.log("==================================\n");
+      }
+    } catch (notifyError) {
+      console.error("관리자 알림 전송 실패:", notifyError);
+    }
+
     return NextResponse.json({ success: true, message: "예약이 접수되었습니다." });
   } catch (error) {
     console.error("예약 API 오류:", error);

@@ -10,6 +10,8 @@ import ReservationSection from "@/components/ReservationSection";
 import FAQSection from "@/components/FAQSection";
 import Footer from "@/components/Footer";
 import MobileBottomBar from "@/components/MobileBottomBar";
+import FloatingButtons from "@/components/FloatingButtons";
+import TrustBadges from "@/components/TrustBadges";
 import { SITE_INFO } from "@/data/siteData";
 import { supabase, isSupabaseConfigured } from "@/lib/supabase";
 
@@ -24,6 +26,8 @@ export default async function Home() {
     address: SITE_INFO.address,
     operating_hours: SITE_INFO.operatingHours,
     business_info: SITE_INFO.businessInfo,
+    announcement_text: "🔥 여름 성수기 예약 폭주! 6월 둘째 주 주말 예약 마감 임박",
+    announcement_active: "true",
   };
 
   let content = {};
@@ -63,13 +67,18 @@ export default async function Home() {
 
   return (
     <>
-      <Header businessName={siteSettings.business_name} />
+      <Header 
+        businessName={siteSettings.business_name} 
+        announcementText={siteSettings.announcement_text}
+        announcementActive={siteSettings.announcement_active === 'true'}
+      />
       <main>
         <HeroSection
           phone={siteSettings.phone}
           kakaoUrl={siteSettings.kakao_url}
           content={content.content_hero}
         />
+        <TrustBadges />
         <ServiceSection content={content.content_services} />
         <ProductSection content={content.content_products} />
         <PricingSection content={content.content_pricing} />
@@ -94,6 +103,7 @@ export default async function Home() {
       </main>
       <Footer settings={siteSettings} />
       <MobileBottomBar phone={siteSettings.phone} />
+      <FloatingButtons phone={siteSettings.phone} kakaoUrl={siteSettings.kakao_url} />
     </>
   );
 }
