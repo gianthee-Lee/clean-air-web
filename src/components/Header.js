@@ -4,11 +4,10 @@ import { useState, useEffect } from "react";
 import { HiMenu, HiX } from "react-icons/hi";
 
 const NAV_ITEMS = [
-  { label: "서비스", href: "#services" },
-  { label: "가격", href: "#pricing" },
-  { label: "과정", href: "#process" },
-  { label: "후기", href: "#reviews" },
-  { label: "예약", href: "#reservation" },
+  { label: "서비스", href: "/#services" },
+  { label: "가격", href: "/#pricing" },
+  { label: "과정", href: "/#process" },
+  { label: "후기", href: "/reviews" },
 ];
 
 export default function Header({ businessName = "클린에어 예약센터" }) {
@@ -53,7 +52,7 @@ export default function Header({ businessName = "클린에어 예약센터" }) {
               {item.label}
             </a>
           ))}
-          <a href="#reservation" className="btn btn-primary text-sm !py-2 !px-4">
+          <a href="/reservation" className="btn btn-primary text-sm !py-2 !px-4">
             예약하기
           </a>
         </nav>
