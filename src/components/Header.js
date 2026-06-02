@@ -91,6 +91,7 @@ export default function Header({ businessName = "클린에어 예약센터", ann
           </nav>
         </div>
       )}
+      </header>
     </>
   );
 }
