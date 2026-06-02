@@ -2,6 +2,8 @@ import { NextResponse } from "next/server";
 import { supabase, isSupabaseConfigured } from "@/lib/supabase";
 import { SITE_INFO } from "@/data/siteData";
 
+export const dynamic = 'force-dynamic';
+
 // 설정 조회
 export async function GET() {
   // Supabase가 설정되어 있으면 DB에서 조회

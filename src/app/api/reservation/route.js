@@ -1,6 +1,8 @@
 import { NextResponse } from "next/server";
 import { supabase, isSupabaseConfigured } from "@/lib/supabase";
 
+export const dynamic = 'force-dynamic';
+
 // 예약 목록 조회 (관리자용)
 export async function GET() {
   if (!isSupabaseConfigured) {
