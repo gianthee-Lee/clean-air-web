@@ -61,10 +61,16 @@ export default function CalendarView() {
     return reservations.filter((r) => r.preferred_date === dateStr);
   };
 
-  // 선택된 날짜의 예약 (시간순 정렬)
   const selectedReservations = selectedDate
     ? getReservationsForDate(selectedDate).sort((a, b) => {
-        const timeOrder = { "오전": 0, "오후": 1, "저녁": 2, "협의": 3 };
+        const timeOrder = {
+          "오전 9:00": 1,
+          "오전 11:00": 2,
+          "오후 1:00": 3,
+          "오후 3:00": 4,
+          "오후 5:00": 5,
+          "오후 8:00": 6,
+        };
         const getOrder = (t) => {
           if (!t) return 99;
           for (const key of Object.keys(timeOrder)) {

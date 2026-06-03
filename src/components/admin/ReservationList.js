@@ -72,7 +72,7 @@ export default function ReservationList() {
     return true;
   });
 
-  // 정렬: 미완료 먼저, 그 안에서 희망 방문 날짜(preferred_date) 오름차순(빠른 날짜 먼저), 날짜가 같으면 접수일 기준
+  // 정렬: 미완료 먼저, 그 안에서 희망 방문 날짜(preferred_date) 오름차순, 날짜가 같으면 희망 시간 오름차순, 시간도 같으면 접수일 기준
   const sorted = [...filtered].sort((a, b) => {
     // 1. 미완료(대기중) 예약이 완료된 예약보다 먼저 오도록
     if (a.is_completed !== b.is_completed) return a.is_completed ? 1 : -1;
@@ -85,7 +85,33 @@ export default function ReservationList() {
       return dateA - dateB;
     }
     
-    // 3. 희망 날짜가 같거나 둘 다 없으면 먼저 접수된 순서대로
+    // 3. 희망 시간이 있다면 시간순 정렬 (오전 9시, 오전 11시, 오후 1시 등)
+    // 시간이 텍스트로 들어오므로 순서를 지정
+    const timeOrder = {
+      "오전 9:00": 1,
+      "오전 11:00": 2,
+      "오후 1:00": 3,
+      "오후 3:00": 4,
+      "오후 5:00": 5,
+      "오후 8:00": 6,
+    };
+    
+    const getOrder = (t) => {
+      if (!t) return 99; // 시간이 없으면 뒤로
+      for (const key of Object.keys(timeOrder)) {
+        if (t.includes(key)) return timeOrder[key];
+      }
+      return 99;
+    };
+    
+    const timeA = getOrder(a.preferred_time);
+    const timeB = getOrder(b.preferred_time);
+    
+    if (timeA !== timeB) {
+      return timeA - timeB;
+    }
+    
+    // 4. 희망 날짜와 시간이 모두 같거나 없으면 먼저 접수된 순서대로
     return new Date(a.created_at) - new Date(b.created_at);
   });
 
