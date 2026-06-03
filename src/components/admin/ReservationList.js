@@ -72,10 +72,10 @@ export default function ReservationList() {
     return true;
   });
 
-  // 정렬: 미완료 먼저, 그 안에서 최신순
+  // 정렬: 미완료 먼저, 그 안에서 들어온 순서(오래된 순)
   const sorted = [...filtered].sort((a, b) => {
     if (a.is_completed !== b.is_completed) return a.is_completed ? 1 : -1;
-    return new Date(b.created_at) - new Date(a.created_at);
+    return new Date(a.created_at) - new Date(b.created_at);
   });
 
   if (loading) {
