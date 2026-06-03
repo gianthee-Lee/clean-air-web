@@ -4,8 +4,15 @@ import { useState, useEffect } from "react";
 import { HiChevronLeft, HiChevronRight, HiOutlineCheck, HiOutlinePhone, HiOutlineLocationMarker } from "react-icons/hi";
 
 export default function CalendarView() {
-  const [currentDate, setCurrentDate] = useState(new Date());
-  const [selectedDate, setSelectedDate] = useState(null);
+  const dayNames = ["일", "월", "화", "수", "목", "금", "토"];
+  const today = new Date();
+  const formatDate = (y, m, d) => {
+    return `${y}-${String(m + 1).padStart(2, "0")}-${String(d).padStart(2, "0")}`;
+  };
+  const todayStr = formatDate(today.getFullYear(), today.getMonth(), today.getDate());
+
+  const [currentDate, setCurrentDate] = useState(today);
+  const [selectedDate, setSelectedDate] = useState(todayStr); // 기본값을 오늘 날짜로 설정
   const [reservations, setReservations] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -54,11 +61,6 @@ export default function CalendarView() {
     return reservations.filter((r) => r.preferred_date === dateStr);
   };
 
-  // 날짜 포맷: YYYY-MM-DD
-  const formatDate = (y, m, d) => {
-    return `${y}-${String(m + 1).padStart(2, "0")}-${String(d).padStart(2, "0")}`;
-  };
-
   // 선택된 날짜의 예약 (시간순 정렬)
   const selectedReservations = selectedDate
     ? getReservationsForDate(selectedDate).sort((a, b) => {
@@ -73,10 +75,6 @@ export default function CalendarView() {
         return getOrder(a.preferred_time) - getOrder(b.preferred_time);
       })
     : [];
-
-  const dayNames = ["일", "월", "화", "수", "목", "금", "토"];
-  const today = new Date();
-  const todayStr = formatDate(today.getFullYear(), today.getMonth(), today.getDate());
 
   if (loading) {
     return <div className="text-center py-12 text-[var(--color-text-light)]">달력을 불러오는 중...</div>;
@@ -117,7 +115,7 @@ export default function CalendarView() {
         <div className="grid grid-cols-7 gap-1">
           {/* 빈 칸 (1일 시작 전) */}
           {Array.from({ length: firstDay }).map((_, i) => (
-            <div key={`empty-${i}`} className="aspect-square" />
+            <div key={`empty-${i}`} className="h-12 sm:h-14" />
           ))}
 
           {/* 날짜 */}
@@ -134,7 +132,7 @@ export default function CalendarView() {
               <button
                 key={day}
                 onClick={() => setSelectedDate(dateStr)}
-                className={`aspect-square rounded-lg flex flex-col items-center justify-center text-sm relative transition-all ${
+                className={`h-12 sm:h-14 rounded-lg flex flex-col items-center justify-center text-sm relative transition-all ${
                   isSelected
                     ? "bg-[var(--color-primary)] text-white"
                     : isToday
