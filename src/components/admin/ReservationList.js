@@ -72,9 +72,20 @@ export default function ReservationList() {
     return true;
   });
 
-  // 정렬: 미완료 먼저, 그 안에서 들어온 순서(오래된 순)
+  // 정렬: 미완료 먼저, 그 안에서 희망 방문 날짜(preferred_date) 오름차순(빠른 날짜 먼저), 날짜가 같으면 접수일 기준
   const sorted = [...filtered].sort((a, b) => {
+    // 1. 미완료(대기중) 예약이 완료된 예약보다 먼저 오도록
     if (a.is_completed !== b.is_completed) return a.is_completed ? 1 : -1;
+    
+    // 2. 희망 날짜 기준 오름차순 (빠른 날짜가 위로)
+    const dateA = a.preferred_date ? new Date(a.preferred_date).getTime() : Infinity;
+    const dateB = b.preferred_date ? new Date(b.preferred_date).getTime() : Infinity;
+    
+    if (dateA !== dateB) {
+      return dateA - dateB;
+    }
+    
+    // 3. 희망 날짜가 같거나 둘 다 없으면 먼저 접수된 순서대로
     return new Date(a.created_at) - new Date(b.created_at);
   });
 
